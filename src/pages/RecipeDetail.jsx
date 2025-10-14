@@ -10,7 +10,11 @@ const RecipeDetail = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const { addToShoppingList } = useApp()
-	const [SnackbarIsVisible, setSnackbarIsVisible] = useState(true)
+	const [SnackbarIsVisible, setSnackbarIsVisible] = useState({
+		isVisible: false,
+		message: "",
+	})
+	const [allAdded, setAllAdded] = useState(false)
 
 	const recipe = nigerianRecipes.find((r) => r.id === parseInt(id))
 
@@ -34,13 +38,18 @@ const RecipeDetail = () => {
 			recipeName: recipe.name,
 		})
 
-		setSnackbarIsVisible(true)
+		setSnackbarIsVisible({
+			isVisible: true,
+			message: "Item added successfully",
+		})
 	}
 
 	const addAllIngredients = () => {
 		recipe.ingredients.forEach((ingredient) => {
 			addIngredientToList(ingredient)
 		})
+
+		setAllAdded(true)
 	}
 
 	return (
@@ -96,14 +105,19 @@ const RecipeDetail = () => {
 					className="bg-white rounded-xl p-6 mb-6 shadow-sm">
 					<div className="flex items-center justify-between mb-4">
 						<h2 className="text-xl font-bold text-gray-900">Ingredients</h2>
-						<button
-							onClick={addAllIngredients}
-							className="flex items-center gap-2 text-orange-600 text-sm font-medium hover:text-orange-700 transition-colors">
-							<Plus size={16} />
-							Add All
-						</button>
+						{allAdded ? (
+							<span className="text-green-600 text-sm font-medium">
+								✓ Added to list
+							</span>
+						) : (
+							<button
+								onClick={addAllIngredients}
+								className="flex items-center gap-2 text-orange-600 text-sm font-medium hover:text-orange-700 transition-colors">
+								<Plus size={16} />
+								Add All
+							</button>
+						)}
 					</div>
-
 					<div className="space-y-3">
 						{recipe.ingredients.map((ingredient, index) => (
 							<motion.div
@@ -113,11 +127,12 @@ const RecipeDetail = () => {
 								transition={{ delay: 0.05 * index }}
 								className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
 								<span className="text-gray-700">{ingredient}</span>
-								<button
+								{/* <button
 									onClick={() => addIngredientToList(ingredient)}
 									className="p-1 text-orange-600 hover:bg-orange-50 rounded-md transition-colors">
 									<Plus size={16} />
-								</button>
+								</button> */}
+								<span className="text-green-700 text-xs">Added</span>
 							</motion.div>
 						))}
 					</div>
@@ -152,9 +167,9 @@ const RecipeDetail = () => {
 			</div>
 
 			<Snackbar
-				message="All ingredients added!"
-				isVisible={SnackbarIsVisible}
-				onClose={() => setSnackbarIsVisible(false)}
+				message={SnackbarIsVisible.message}
+				isVisible={SnackbarIsVisible.isVisible}
+				onClose={() => setSnackbarIsVisible({ isVisible: false })}
 			/>
 		</div>
 	)

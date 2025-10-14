@@ -23,7 +23,7 @@ const Home = () => {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 dark:from-dark-bg dark:to-dark-surface pb-20 transition-colors duration-300">
 			{/* Header */}
-			<div className="bg-gradient-to-r from-orange-600 to-red-600 dark:from-orange-700 dark:to-red-700 px-4 pt-12 pb-8">
+			<div className="position fixed w-full z-10 bg-gradient-to-r from-orange-600 to-red-600 dark:from-orange-700 dark:to-red-700 py-6">
 				<div className="max-w-md mx-auto">
 					<div className="absolute right-8">
 						<ThemeToggle />
@@ -56,7 +56,7 @@ const Home = () => {
 
 			{/* Featured Section */}
 			<div className="px-4 py-6">
-				<div className="max-w-md mx-auto">
+				<div className="max-w-md mx-auto mt-48">
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
